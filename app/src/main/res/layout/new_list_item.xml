@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:cardCornerRadius="4dp"
+                                    android:layout_margin="8dp"
+                                    app:cardPreventCornerOverlap="true"
+    >
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/news_img"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:paddingLeft="8dp"
+                android:textColor="@color/colorPrimary"
+                tools:text="title"/>
+
+            <TextView
+                android:id="@+id/news_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lineSpacingExtra="3px"
+                android:lines="2"
+                android:paddingLeft="8dp"
+                android:textColor="@android:color/darker_gray"
+                tools:text="content"/>
+
+            <TextView
+                android:id="@+id/news_date"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:paddingRight="8dp"
+                android:textColor="@android:color/darker_gray"
+                tools:text="date"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
