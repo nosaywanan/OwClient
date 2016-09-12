@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import ow.Utils.ImageUtils;
 import ow.Utils.StringUtils;
 import ow.bean.OwNewsItem;
 import ow.bean.OwNewsPageBean;
@@ -41,6 +40,7 @@ import ow.client.Constaint;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+
 
 public class MainActivity extends AppCompatActivity implements NewsItemBiz.OnPictureLoadedListener {
     ImageView splash;
@@ -77,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements NewsItemBiz.OnPic
         initTab();
         initView();
     }
-
-
     private void initTab() {
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         TabLayout.Tab tab = mTabLayout.newTab();
@@ -187,8 +185,6 @@ public class MainActivity extends AppCompatActivity implements NewsItemBiz.OnPic
     private void lunchWelcome() {
         splash = (ImageView) mWelcomeView.findViewById(R.id.splash);
         splashTv= (TextView) mWelcomeView.findViewById(R.id.splash_tv);
-        ImageView matrixImage= (ImageView) mWelcomeView.findViewById(R.id.matrix_iv);
-        matrixImage.setImageBitmap(ImageUtils.getMatrixBitmap(this));
         splashTv.setText(StringUtils.getReplactringWithColor("OverWatch",getResources().getColor(R.color.colorAccent),"O","W"));
         Observable.timer(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
