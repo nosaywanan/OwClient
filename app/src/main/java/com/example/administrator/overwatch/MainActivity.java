@@ -118,9 +118,9 @@ public class MainActivity extends AppCompatActivity implements NewsItemBiz.OnPic
             public CharSequence getPageTitle(int position) {
                 switch (position) {
                     case 0:
-                        return "新闻1";
+                        return "新闻";
                     case 1:
-                        return "攻略1";
+                        return "攻略";
                     default:
                         return null;
                 }
