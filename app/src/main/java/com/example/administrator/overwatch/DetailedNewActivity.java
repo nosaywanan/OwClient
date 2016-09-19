@@ -1,11 +1,14 @@
 package com.example.administrator.overwatch;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.administrator.overwatch.Presenter.DetailNewsPresenter;
+import com.example.administrator.overwatch.View.IDetailNewsView;
 
 import ow.Utils.ViewUtils;
 import ow.Widget.NewPageLinearLayout;
@@ -16,7 +19,7 @@ import ow.biz.NewsItemBiz;
  * Created by Administrator on 2016-07-22.
  */
 
-public class DetailedNewActivity extends Activity
+public class DetailedNewActivity extends Activity implements IDetailNewsView
 {
     TextView autor, date, title;
     String urlStr;
@@ -26,6 +29,7 @@ public class DetailedNewActivity extends Activity
     NewPageLinearLayout mNewPageLinearLayout;
     ViewUtils mViewUtils;
     View mContentView;
+    DetailNewsPresenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -50,10 +54,12 @@ public class DetailedNewActivity extends Activity
 
     private void initData()
     {
+        mPresenter = new DetailNewsPresenter(this);
+        mPresenter.loadDetailNews(urlStr);
         mNewsItemBiz = new NewsItemBiz();
         mViewUtils = new ViewUtils();
-        DetailedNewTask task = new DetailedNewTask();
-        task.execute(urlStr);
+//        DetailedNewTask task = new DetailedNewTask();
+//        task.execute(urlStr);
     }
 
     public void updateView()
@@ -62,25 +68,26 @@ public class DetailedNewActivity extends Activity
         mContentView.invalidate();
     }
 
-    class DetailedNewTask extends AsyncTask<String, Integer, OwNewsPageBean>
+    @Override
+    public void showError(String error)
     {
-        @Override
-        protected OwNewsPageBean doInBackground(String... params)
-        {
-            mPageBean = mNewsItemBiz.parseNewsPage(params[0]);
-            return mPageBean;
-        }
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
 
-        @Override
-        protected void onPostExecute(OwNewsPageBean pageBean)
-        {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            title.setText(mPageBean.getTitle());
-            autor.setText(mPageBean.getAutor());
-            date.setText(mPageBean.getDate());
-            mViewUtils.getContentView(mNewPageLinearLayout, mPageBean.getPageInfoList());
-            updateView();
-        }
+    @Override
+    public void updateBoundary()
+    {
+        updateView();
+    }
 
+    @Override
+    public void updateDetailNews(OwNewsPageBean owNewsPageBean)
+    {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        title.setText(mPageBean.getTitle());
+        autor.setText(mPageBean.getAutor());
+        date.setText(mPageBean.getDate());
+        ViewUtils.getInstance().getContentView(mNewPageLinearLayout, owNewsPageBean.getPageInfoList());
+        updateView();
     }
 }

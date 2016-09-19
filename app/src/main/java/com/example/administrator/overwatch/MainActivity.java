@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
     }
 
     @Override
-    public void updateImage()
+    public void updateBoundary()
     {
         updateUI();
     }

@@ -22,10 +22,19 @@ import ow.bean.OwNewsPageBean;
 public class ViewUtils
 {
 
+    public static  ViewUtils mInstance;
+
+    public static ViewUtils getInstance()
+    {
+        if (mInstance == null)
+            mInstance = new ViewUtils();
+        return mInstance;
+    }
 
     public void getContentView(NewPageLinearLayout linearLayout,
                                List<HashMap<Integer, String>> pageInfoList)
     {
+
         // NewPageLinearLayout linearLayout = new NewPageLinearLayout(context, null);
         long start = System.currentTimeMillis();
         Log.e("getContentView**start", start + "");
