@@ -12,47 +12,62 @@ import android.widget.ProgressBar;
  * Created by Administrator on 2016-07-13.
  */
 
-public class DilidiliPlayer extends WebView{
+public class DilidiliPlayer extends WebView
+{
     private String url;
     private ProgressBar mProgressBar;
 
-    public DilidiliPlayer(Context context, AttributeSet attrs) {
+    public DilidiliPlayer(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         init();
     }
+
     @Override
-    public String getUrl() {
+    public String getUrl()
+    {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(String url)
+    {
         this.url = url;
     }
 
-    public void setProgressBar(ProgressBar progressBar) {
+    public void setProgressBar(ProgressBar progressBar)
+    {
         mProgressBar = progressBar;
     }
 
-    private void init() {
+    private void init()
+    {
         setBackgroundColor(Color.parseColor("#000000"));
         getSettings().setJavaScriptEnabled(true);
         getSettings().setMediaPlaybackRequiresUserGesture(true);
-        setWebViewClient(new WebViewClient(){
+        setWebViewClient(new WebViewClient()
+        {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url)
+            {
                 loadUrl(url);
                 return true;
             }
+
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void onPageFinished(WebView view, String url)
+            {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
-    public void reload(){
+
+    public void reload()
+    {
         reload();
     }
-    public void loadUrl(){
+
+    public void loadUrl()
+    {
         loadUrl(url);
     }
 }

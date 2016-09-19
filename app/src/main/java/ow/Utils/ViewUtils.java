@@ -19,17 +19,22 @@ import ow.bean.OwNewsPageBean;
  * Created by Administrator on 2016-07-22.
  */
 
-public class ViewUtils {
+public class ViewUtils
+{
 
 
-    public void getContentView(NewPageLinearLayout linearLayout, List<HashMap<Integer, String>> pageInfoList) {
+    public void getContentView(NewPageLinearLayout linearLayout,
+                               List<HashMap<Integer, String>> pageInfoList)
+    {
         // NewPageLinearLayout linearLayout = new NewPageLinearLayout(context, null);
         long start = System.currentTimeMillis();
         Log.e("getContentView**start", start + "");
         String content;
         String imgLink;
-        for (int i = 0; i < pageInfoList.size(); i++) {
-            switch (getContentType(pageInfoList.get(i))) {
+        for (int i = 0; i < pageInfoList.size(); i++)
+        {
+            switch (getContentType(pageInfoList.get(i)))
+            {
                 case OwNewsPageBean.PAGE_TEXT:
                     content = pageInfoList.get(i).get(OwNewsPageBean.PAGE_TEXT);
                     linearLayout.addTextView(createTextView(linearLayout.getContext(), content));
@@ -48,15 +53,18 @@ public class ViewUtils {
     }
 
 
-    public int getContentType(HashMap<Integer, String> map) {
+    public int getContentType(HashMap<Integer, String> map)
+    {
         int type = OwNewsPageBean.PAGE_TEXT;
-        for (HashMap.Entry<Integer, String> entry : map.entrySet()) {
+        for (HashMap.Entry<Integer, String> entry : map.entrySet())
+        {
             type = entry.getKey();
         }
         return type;
     }
 
-    private TextView createTextView(Context context, String content) {
+    private TextView createTextView(Context context, String content)
+    {
         TextView textView = new TextView(context);
         textView.setTextColor(Color.BLACK);
         textView.setLineSpacing(4, 1.2f);
@@ -68,7 +76,8 @@ public class ViewUtils {
 
     HashMap<ImageView, String> imgMap = new HashMap<ImageView, String>();
 
-    private ImageView createImageView(Context context, String imageLink) {
+    private ImageView createImageView(Context context, String imageLink)
+    {
 
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -78,23 +87,29 @@ public class ViewUtils {
         return imageView;
     }
 
-    private void ascyLoadContentImage() {
+    private void ascyLoadContentImage()
+    {
         LoadContentImageTask task = new LoadContentImageTask();
         task.execute(imgMap);
     }
 
-    class LoadContentImageTask extends AsyncTask<HashMap<ImageView, String>, Integer, HashMap<ImageView, Bitmap>> {
+    class LoadContentImageTask
+            extends AsyncTask<HashMap<ImageView, String>, Integer, HashMap<ImageView, Bitmap>>
+    {
 
         @Override
-        protected HashMap<ImageView, Bitmap> doInBackground(HashMap<ImageView, String>... params) {
+        protected HashMap<ImageView, Bitmap> doInBackground(HashMap<ImageView, String>... params)
+        {
 
             Log.e("LoadImageTask-doInBack", System.currentTimeMillis() + "");
             HashMap<ImageView, Bitmap> map = new HashMap<ImageView, Bitmap>();
             ImageView key;
             String link;
             Bitmap bitmap;
-            for (HashMap<ImageView, String> param : params) {
-                for (HashMap.Entry<ImageView, String> entry : param.entrySet()) {
+            for (HashMap<ImageView, String> param : params)
+            {
+                for (HashMap.Entry<ImageView, String> entry : param.entrySet())
+                {
                     key = entry.getKey();
                     link = entry.getValue();
                     bitmap = ImageUtils.getContentImageFromUrl(link);
@@ -105,16 +120,19 @@ public class ViewUtils {
         }
 
         @Override
-        protected void onPostExecute(HashMap<ImageView, Bitmap> map) {
+        protected void onPostExecute(HashMap<ImageView, Bitmap> map)
+        {
             Log.e("LoadImageTask-onPostExe", System.currentTimeMillis() + "");
             ImageView key;
             Bitmap bitmap;
             LinearLayout.LayoutParams params;
             super.onPostExecute(map);
-            for (HashMap.Entry<ImageView, Bitmap> entry : map.entrySet()) {
+            for (HashMap.Entry<ImageView, Bitmap> entry : map.entrySet())
+            {
                 key = entry.getKey();
                 bitmap = entry.getValue();
-                if (bitmap != null) {
+                if (bitmap != null)
+                {
                     params = (LinearLayout.LayoutParams) key.getLayoutParams();
                     params.width = bitmap.getWidth();
                     params.height = bitmap.getHeight();

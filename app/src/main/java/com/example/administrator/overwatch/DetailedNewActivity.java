@@ -16,7 +16,8 @@ import ow.biz.NewsItemBiz;
  * Created by Administrator on 2016-07-22.
  */
 
-public class DetailedNewActivity extends Activity  {
+public class DetailedNewActivity extends Activity
+{
     TextView autor, date, title;
     String urlStr;
     NewsItemBiz mNewsItemBiz;
@@ -27,7 +28,8 @@ public class DetailedNewActivity extends Activity  {
     View mContentView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         mContentView = getLayoutInflater().inflate(R.layout.activity_detailed_new_v2, null);
         setContentView(mContentView);
@@ -37,7 +39,8 @@ public class DetailedNewActivity extends Activity  {
 
     }
 
-    private void initView() {
+    private void initView()
+    {
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         mNewPageLinearLayout = (NewPageLinearLayout) findViewById(R.id.news_page);
         autor = (TextView) findViewById(R.id.news_autor);
@@ -45,27 +48,32 @@ public class DetailedNewActivity extends Activity  {
         title = (TextView) findViewById(R.id.news_title);
     }
 
-    private void initData() {
+    private void initData()
+    {
         mNewsItemBiz = new NewsItemBiz();
         mViewUtils = new ViewUtils();
         DetailedNewTask task = new DetailedNewTask();
         task.execute(urlStr);
     }
 
-    public void updateView() {
+    public void updateView()
+    {
         mNewPageLinearLayout.invalidate();
         mContentView.invalidate();
     }
 
-    class DetailedNewTask extends AsyncTask<String, Integer, OwNewsPageBean> {
+    class DetailedNewTask extends AsyncTask<String, Integer, OwNewsPageBean>
+    {
         @Override
-        protected OwNewsPageBean doInBackground(String... params) {
+        protected OwNewsPageBean doInBackground(String... params)
+        {
             mPageBean = mNewsItemBiz.parseNewsPage(params[0]);
             return mPageBean;
         }
 
         @Override
-        protected void onPostExecute(OwNewsPageBean pageBean) {
+        protected void onPostExecute(OwNewsPageBean pageBean)
+        {
             mProgressBar.setVisibility(View.INVISIBLE);
             title.setText(mPageBean.getTitle());
             autor.setText(mPageBean.getAutor());
