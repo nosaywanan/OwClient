@@ -19,6 +19,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -31,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.overwatch.Adapter.MyRevAdapter;
 import com.example.administrator.overwatch.Presenter.NewsPresenter;
@@ -50,6 +50,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 import static android.animation.ObjectAnimator.ofFloat;
+import static android.view.View.GONE;
 
 
 public class MainActivity extends AppCompatActivity implements IGetNewsView
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
     List<View> mViews = new ArrayList<View>();
     int mCurrentPage = 0;
     NewsPresenter mPresenter;
+    ImageView mNoNetWork;
+    int centerX;
+    int centerY;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
             public void onPageSelected(int position)
             {
                 mCurrentPage = position;
-                mProgressbar.setVisibility(View.GONE);
+                mProgressbar.setVisibility(GONE);
                 if (!mPresenter.hasLoadedPage(position))
                 {
                     //getNewList(position);
@@ -194,12 +198,23 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
 
     private void initView()
     {
-        mPresenter=new NewsPresenter(this);
+        mPresenter = new NewsPresenter(this);
         mPresenter.getNews(Constaint.OW_NEWS);
+        mNoNetWork = (ImageView) findViewById(R.id.no_data);
         //getNewList(Constaint.OW_YXGL);
 //        biz = new NewsItemBiz();
 //        biz.setPictureLoadedListener(this);
         initRecycleView(0);
+    }
+
+    private void showNoNetWorkTip()
+    {
+        mNoNetWork.setVisibility(View.VISIBLE);
+    }
+
+    private void hideNoNetWorkTip()
+    {
+        mNoNetWork.setVisibility(View.GONE);
     }
 
     private void initRecycleView(int postion)
@@ -257,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
     private void setAdapter(List<OwNewsItem> owNewsItemList)
     {
         initRecycleView(mCurrentPage);
-        newsItems=owNewsItemList;
+        newsItems = owNewsItemList;
         adapter = new MyRevAdapter(this, owNewsItemList);
         // adapter.setList(newsItems);
         mMyRecycleView.setAdapter(adapter);
@@ -273,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
 
     private void setTransitionAnimator(final int position)
     {
-        final ViewGroup viewGroup=dynmicCreateOverlay();
+        final ViewGroup viewGroup = dynmicCreateOverlay();
 
         new Handler().postDelayed(new Runnable()
         {
@@ -283,8 +298,8 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
                 animateRevealColorFromCoordinates(
                         viewGroup,
                         R.color.colorAccent,
-                        mWindow.getWidth() / 2,
-                        mWindow.getHeight() / 2
+                        centerX,
+                        centerY
                 ).addListener(new Animator.AnimatorListener()
                 {
                     @Override
@@ -318,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
             }
         }, 100);
     }
+
     //TODO 动态生成一个遮罩
     private ViewGroup dynmicCreateOverlay()
     {
@@ -327,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
         mWindow.addView(overlayView, layoutParams);
         return overlayView;
     }
+
     private Animator animateRevealColorFromCoordinates(ViewGroup viewRoot, @ColorRes int color,
                                                        int x, int y)
     {
@@ -349,10 +366,20 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
     @Override
     public void updateContent(List<OwNewsItem> owNewsItemList)
     {
-        if (mProgressbar!=null)
-            mProgressbar.setVisibility(View.GONE);
+        if (mProgressbar != null)
+            mProgressbar.setVisibility(GONE);
+        hideNoNetWorkTip();
         setAdapter(owNewsItemList);
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event)
+    {
+        centerX= (int) event.getX();
+        centerY= (int) event.getY();
+        return super.dispatchTouchEvent(event);
+    }
+
 
     @Override
     public void updateBoundary()
@@ -363,6 +390,8 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
     @Override
     public void showError(String error)
     {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        if (mProgressbar != null)
+            mProgressbar.setVisibility(GONE);
+        showNoNetWorkTip();
     }
 }

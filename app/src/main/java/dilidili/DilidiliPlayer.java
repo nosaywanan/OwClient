@@ -3,10 +3,10 @@ package dilidili;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 /**
  * Created by Administrator on 2016-07-13.
@@ -15,7 +15,11 @@ import android.widget.ProgressBar;
 public class DilidiliPlayer extends WebView
 {
     private String url;
-    private ProgressBar mProgressBar;
+
+    public DilidiliPlayer(Context context)
+    {
+        this(context, null);
+    }
 
     public DilidiliPlayer(Context context, AttributeSet attrs)
     {
@@ -34,10 +38,6 @@ public class DilidiliPlayer extends WebView
         this.url = url;
     }
 
-    public void setProgressBar(ProgressBar progressBar)
-    {
-        mProgressBar = progressBar;
-    }
 
     private void init()
     {
@@ -56,8 +56,19 @@ public class DilidiliPlayer extends WebView
             @Override
             public void onPageFinished(WebView view, String url)
             {
-                mProgressBar.setVisibility(View.INVISIBLE);
+                if (mOnPageLoadListener!=null)
+                    mOnPageLoadListener.OnPageLoadSuccess();
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request,
+                                        WebResourceError error)
+            {
+                super.onReceivedError(view, request, error);
+                if (mOnPageLoadListener!=null)
+                    mOnPageLoadListener.OnPageLoadFailed(error.toString());
+            }
+
         });
     }
 
@@ -69,5 +80,18 @@ public class DilidiliPlayer extends WebView
     public void loadUrl()
     {
         loadUrl(url);
+    }
+    private OnPageLoadListener mOnPageLoadListener;
+
+    public void setOnPageLoadListener(OnPageLoadListener onPageLoadListener)
+    {
+        mOnPageLoadListener = onPageLoadListener;
+    }
+
+    public interface OnPageLoadListener
+    {
+        void OnPageLoadSuccess();
+
+        void OnPageLoadFailed(String error);
     }
 }

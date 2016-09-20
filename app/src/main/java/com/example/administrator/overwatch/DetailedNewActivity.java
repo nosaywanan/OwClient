@@ -2,13 +2,17 @@ package com.example.administrator.overwatch;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.overwatch.Presenter.DetailNewsPresenter;
 import com.example.administrator.overwatch.View.IDetailNewsView;
+
+import java.util.Random;
 
 import ow.Utils.ViewUtils;
 import ow.Widget.NewPageLinearLayout;
@@ -30,6 +34,7 @@ public class DetailedNewActivity extends Activity implements IDetailNewsView
     ViewUtils mViewUtils;
     View mContentView;
     DetailNewsPresenter mPresenter;
+    int[] backResouce = {R.drawable.back, R.drawable.back1, R.drawable.back2};
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -38,9 +43,18 @@ public class DetailedNewActivity extends Activity implements IDetailNewsView
         mContentView = getLayoutInflater().inflate(R.layout.activity_detailed_new_v2, null);
         setContentView(mContentView);
         urlStr = getIntent().getStringExtra("link");
+        initTitleBackground();
         initView();
         initData();
 
+    }
+
+    private void initTitleBackground()
+    {
+        ImageView titleBack = (ImageView) findViewById(R.id.title_back);
+        Random random = new Random(100);
+        int randomPic = random.nextInt((int) SystemClock.currentThreadTimeMillis());
+        titleBack.setImageResource(backResouce[randomPic%3]);
     }
 
     private void initView()

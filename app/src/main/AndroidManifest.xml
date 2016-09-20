@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".DetailedNewActivity"
             android:theme="@style/DetailNewsTheme"/>
+        <activity android:name=".Test"/>
     </application>
 
 </manifest>

@@ -86,7 +86,7 @@ public class NewsModel implements INewsModel,NewsItemBiz.OnPictureLoadedListener
             newsItems = mNewsItemBiz.getNewsItem(
                     url + OwNewsPageBean.URLExtra);
             mNewsItemBiz.setPictureLoadedListener(NewsModel.this);
-            if (newsItems.isEmpty())
+            if (newsItems==null||newsItems.isEmpty())
                 return 0;
             else
                 return 1;

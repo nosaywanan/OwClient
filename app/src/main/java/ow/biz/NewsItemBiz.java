@@ -29,9 +29,9 @@ public class NewsItemBiz
         {
             //String htmlStr = DataUtils.doGet(urlStr);
             //Document document= Jsoup.connect("http://ow.17173.com/news/?__stay_on_pc").get();
-            Connection connection=Jsoup.connect(urlStr);
+            Connection connection = Jsoup.connect(urlStr);
             connection.timeout(5000);
-            Document document =connection.get();
+            Document document = connection.get();
             //Document document= Jsoup.parse(htmlStr);
             Elements itemsElementsImg = document.getElementsByClass("art-item-c1");
             Elements itemsElementsText = document.getElementsByClass("art-item-c2");

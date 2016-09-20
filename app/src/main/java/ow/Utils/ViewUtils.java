@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
+import dilidili.DilidiliPlayer;
 import ow.Widget.NewPageLinearLayout;
 import ow.bean.OwNewsPageBean;
 
@@ -22,7 +23,7 @@ import ow.bean.OwNewsPageBean;
 public class ViewUtils
 {
 
-    public static  ViewUtils mInstance;
+    public static ViewUtils mInstance;
 
     public static ViewUtils getInstance()
     {
@@ -34,12 +35,9 @@ public class ViewUtils
     public void getContentView(NewPageLinearLayout linearLayout,
                                List<HashMap<Integer, String>> pageInfoList)
     {
-
-        // NewPageLinearLayout linearLayout = new NewPageLinearLayout(context, null);
-        long start = System.currentTimeMillis();
-        Log.e("getContentView**start", start + "");
         String content;
         String imgLink;
+        String movieUrl;
         for (int i = 0; i < pageInfoList.size(); i++)
         {
             switch (getContentType(pageInfoList.get(i)))
@@ -53,12 +51,14 @@ public class ViewUtils
                     linearLayout.addImageView(createImageView(linearLayout.getContext(), imgLink));
                     break;
                 case OwNewsPageBean.PAGE_MOVIE:
+                    movieUrl = pageInfoList.get(i).get(OwNewsPageBean.PAGE_MOVIE);
+                    Log.e(this.getClass().getSimpleName(), movieUrl);
+                    linearLayout.addMoviePlayer(createMoviePlayer(linearLayout.getContext(),movieUrl));
                     break;
             }
         }
         ascyLoadContentImage();
-        Log.e("getContentView**end", System.currentTimeMillis() + "");
-        Log.e("getContentView**耗时", System.currentTimeMillis() - start + "");
+
     }
 
 
@@ -94,6 +94,14 @@ public class ViewUtils
         imgMap.put(imageView, imageLink);
         // imageView.setImageBitmap();
         return imageView;
+    }
+
+    private DilidiliPlayer createMoviePlayer(Context context, String movieUrl)
+    {
+        DilidiliPlayer player=new DilidiliPlayer(context);
+        player.setUrl(movieUrl);
+        player.loadUrl();
+        return player;
     }
 
     private void ascyLoadContentImage()

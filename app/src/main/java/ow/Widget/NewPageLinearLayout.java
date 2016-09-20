@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import dilidili.DilidiliPlayer;
 import ow.Utils.DimensionUtils;
 
 /**
@@ -36,5 +37,14 @@ public class NewPageLinearLayout extends LinearLayout
                 LayoutParams.WRAP_CONTENT);
         mLayoutParams.setMargins(0, margin, 0, margin);
         addView(view, mLayoutParams);
+    }
+
+    public void addMoviePlayer(DilidiliPlayer player)
+    {
+        int margin = DimensionUtils.dip2px(getContext(), 16);
+        LayoutParams mLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
+                getWidth()/16*9);
+        mLayoutParams.setMargins(0, margin, 0, margin);
+        addView(player, mLayoutParams);
     }
 }
