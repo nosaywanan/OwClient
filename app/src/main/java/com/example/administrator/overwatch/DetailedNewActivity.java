@@ -56,10 +56,6 @@ public class DetailedNewActivity extends Activity implements IDetailNewsView
     {
         mPresenter = new DetailNewsPresenter(this);
         mPresenter.loadDetailNews(urlStr);
-        mNewsItemBiz = new NewsItemBiz();
-        mViewUtils = new ViewUtils();
-//        DetailedNewTask task = new DetailedNewTask();
-//        task.execute(urlStr);
     }
 
     public void updateView()
@@ -83,11 +79,12 @@ public class DetailedNewActivity extends Activity implements IDetailNewsView
     @Override
     public void updateDetailNews(OwNewsPageBean owNewsPageBean)
     {
-        mProgressBar.setVisibility(View.INVISIBLE);
-        title.setText(mPageBean.getTitle());
-        autor.setText(mPageBean.getAutor());
-        date.setText(mPageBean.getDate());
-        ViewUtils.getInstance().getContentView(mNewPageLinearLayout, owNewsPageBean.getPageInfoList());
+        mProgressBar.setVisibility(View.GONE);
+        title.setText(owNewsPageBean.getTitle());
+        autor.setText(owNewsPageBean.getAutor());
+        date.setText(owNewsPageBean.getDate());
+        ViewUtils.getInstance().getContentView(mNewPageLinearLayout,
+                owNewsPageBean.getPageInfoList());
         updateView();
     }
 }
