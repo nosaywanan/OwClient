@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -281,10 +282,21 @@ public class MainActivity extends AppCompatActivity implements IGetNewsView
             @Override
             public void OnClick(View view, final int position)
             {
-                setTransitionAnimator(position);
+                //setTransitionAnimator(position);
+                startDetailedActivity(view,position);
             }
         });
     }
+
+    private void startDetailedActivity(View view,int position) {
+        ImageView shareview= (ImageView) view.getTag(R.id.news_img);
+        ActivityOptionsCompat options=ActivityOptionsCompat.makeSceneTransitionAnimation(this,shareview,"shareImg");
+        Intent intent = new Intent(MainActivity.this,
+                DetailedNewActivity.class);
+        intent.putExtra("link", newsItems.get(position).getLink());
+        startActivity(intent,options.toBundle());
+    }
+
 
     private void setTransitionAnimator(final int position)
     {

@@ -82,6 +82,7 @@ public class MyRevAdapter extends RecyclerView.Adapter<MyRevAdapter.MyViewHolder
             date = (TextView) itemView.findViewById(R.id.news_date);
             content = (TextView) itemView.findViewById(R.id.news_content);
             imageView = (ImageView) itemView.findViewById(R.id.news_img);
+            itemView.setTag(R.id.news_img,imageView);
         }
 
         @Override
